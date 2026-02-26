@@ -874,8 +874,8 @@
   <h2>Request a<br>Decision Review</h2>
   <p>Submit your decision context. If it fits our scope (pre-commitment validation), we will respond within 48 hours.</p>
 
-  <form class="contact-form" action="https://formspree.io/f/xpqjbpzg" method="POST">
-    <input type="hidden" name="_redirect" value="/thank-you.html">
+  <form id="clarivex-form" class="contact-form" action="https://formspree.io/f/xpqjbpzg" method="POST">
+    
     <div class="form-grid">
       <div class="form-field">
         <label class="form-label" for="name">Full Name</label>
@@ -941,6 +941,47 @@ function toggleDeliverable(el) {
   if (!isOpen) el.classList.add('open');
 }
 </script>
+<script>
+(function () {
+  const form = document.getElementById('clarivex-form');
+  if (!form) return;
 
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting…'; }
+
+    try {
+      const formData = new FormData(form);
+
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        window.location.href = '/thank-you.html';
+        return;
+      }
+
+      // 실패 시: Formspree가 주는 에러 메시지 확인
+      let msg = 'Submission failed. Please try again.';
+      try {
+        const data = await res.json();
+        if (data && data.errors && data.errors.length) msg = data.errors.map(x => x.message).join(' ');
+      } catch (_) {}
+
+      alert(msg);
+    } catch (err) {
+      alert('Network error. Please try again.');
+    } finally {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText; }
+    }
+  });
+})();
+</script>
 </body>
 </html>
