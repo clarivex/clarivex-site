@@ -883,40 +883,221 @@
   }
 
 
-  /* ── LANGUAGE SWITCH ── */
-  .lang-switch {
-    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: rgba(36, 50, 74, 0.55);
+  /* ── KR NAV TYPOGRAPHY ── */
+  nav .nav-brand,
+  nav .lang-switch,
+  nav .nav-cta {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   }
-  .lang-switch a {
-    text-decoration: none;
-    color: rgba(36, 50, 74, 0.65);
+
+  nav .nav-brand {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: rgba(15, 27, 45, 0.78);
   }
-  .lang-switch a.active {
-    color: var(--primary-dark);
+
+  nav .lang-switch {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  nav .lang-switch a {
+    color: rgba(15, 27, 45, 0.70);
+    opacity: 1;
+  }
+
+  nav .lang-switch a.active {
+    color: rgba(15, 27, 45, 0.95);
+    font-weight: 700;
+  }
+
+  nav .nav-cta {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 11px 18px;
+  }
+
+
+  /* ── KR HERO LABEL SIZE ── */
+  .hero.kr-hero .label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: rgba(15, 27, 45, 0.70);
+  }
+
+  @media (max-width: 768px) {
+    .hero.kr-hero .label {
+      font-size: 13px;
+      letter-spacing: 0.10em;
+    }
+  }
+
+
+  /* ── KR DELIVERABLES TYPOGRAPHY (Provide Services) ── */
+  #deliverables .section-title,
+  #deliverables .d-title,
+  #deliverables .d-num,
+  #deliverables .deliverable-body,
+  #deliverables .deliverable-body li,
+  #deliverables .output-tag {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  #deliverables .section-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  #deliverables .d-title {
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  #deliverables .d-num {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  #deliverables .deliverable-body li {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.85;
+  }
+
+
+  /* ── KR GLOBAL TYPOGRAPHY UNIFICATION ── */
+  body {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 400;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Small numeric labels and counters */
+  .section-num,
+  .step-num,
+  .d-num {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .section-num { font-size: 12px; }
+  .step-num { font-size: 12px; }
+  .d-num { font-size: 12px; }
+
+  /* Cards / paragraphs default */
+  p, li, span, label, input, textarea, select, button {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  /* Process (How it works) */
+  #process .step h4 {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  #process .step p {
+    font-size: 16px;
+    line-height: 1.9;
+    font-weight: 500;
+    color: rgba(16,24,40,0.82);
+  }
+
+  /* Not-this (scope) */
+  #not-this .insight-quote {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 1.6;
     font-weight: 600;
   }
-  .lang-switch .divider { opacity: 0.4; }
+
+  /* CTA form sizing */
+  #contact h2 {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 700;
+  }
+  #contact .form-label { font-weight: 600; }
+  #contact input, #contact textarea, #contact select { font-size: 16px; }
+  #contact .form-note { font-size: 16px; font-weight: 500; color: rgba(16,24,40,0.85); }
+
+  /* CTA buttons */
+  .btn-primary, .btn-ghost, .nav-cta {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+  }
+
+
+  /* ── KR CTA HEADING + INPUT TYPOGRAPHY FIX ── */
+  #contact h2 {
+    font-size: clamp(34px, 4.8vw, 52px);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  #contact .contact-form input,
+  #contact .contact-form textarea,
+  #contact .contact-form select {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+    font-weight: 500;
+    font-size: 16px;
+    color: rgba(16,24,40,0.9);
+  }
+
+  #contact .contact-form input::placeholder,
+  #contact .contact-form textarea::placeholder {
+    color: rgba(16,24,40,0.45);
+    font-weight: 400;
+  }
+
+  #contact .form-label {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: rgba(16,24,40,0.75);
+  }
+
+
+  /* ── KR CTA FONT FORCE (override mono defaults) ── */
+  #contact, 
+  #contact *,
+  #contact .form-label,
+  #contact input,
+  #contact textarea,
+  #contact select,
+  #contact option,
+  #contact button {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+  }
+
+  /* Ensure labels don't look like English mono */
+  #contact .form-label {
+    text-transform: none !important;
+    letter-spacing: 0.02em !important;
+  }
 
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<link rel="canonical" href="https://clarivex.co/kr/" />
-<link rel="alternate" hreflang="en" href="https://clarivex.co/" />
-<link rel="alternate" hreflang="ko" href="https://clarivex.co/kr/" />
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
   <span class="nav-brand">CLARIVEX · 딜 구조 설계 · 현장 기반 판단 검증</span>
-  <div class="lang-switch"><a href="/" >EN</a><span class="divider">|</span><a href="/kr/" class="active">KR</a></div>
   <a href="#contact" class="nav-cta">진단 요청하기 →</a>
 </nav>
 
