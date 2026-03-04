@@ -1090,6 +1090,30 @@
     letter-spacing: 0.02em !important;
   }
 
+
+/* Language toggle visual fix */
+.lang-switch{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size:12px;
+  letter-spacing:0.04em;
+}
+.lang-switch a{
+  text-decoration:none !important;
+  border-bottom:none !important;
+  color:rgba(20,30,50,0.65);
+}
+.lang-switch a.active{
+  color:rgba(20,30,50,0.95);
+  font-weight:700;
+}
+.lang-switch .divider{
+  opacity:.4;
+  margin:0 2px;
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -1098,6 +1122,7 @@
 <!-- NAV -->
 <nav>
   <span class="nav-brand">CLARIVEX · 딜 구조 설계 · 현장 기반 판단 검증</span>
+  <div class="lang-switch"><a href="/" >EN</a> <span class="divider">|</span> <a href="/kr/" class="active">KR</a></div>
   <a href="#contact" class="nav-cta">진단 요청하기 →</a>
 </nav>
 
