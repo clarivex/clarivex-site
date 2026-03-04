@@ -1,0 +1,1362 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clarivex — 해외 딜 구조 설계 파트너</title>
+
+<!-- Brand fonts (Inter primary, optional serif + mono for contrast) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Clarivex Brand Board palette */
+    --primary-dark: #0F1B2D;
+    --secondary-dark: #24324A;
+    --text-primary: #101828;
+    --accent: #2E5AAC;
+    --soft-accent: #1D6F73;
+    --bg: #F6F8FA;
+
+    /* Mapped tokens for the template */
+    --ink: var(--text-primary);
+    --paper: var(--bg);
+    --rule: rgba(36, 50, 74, 0.22); /* secondary-dark @ ~22% */
+    --muted: rgba(16, 24, 40, 0.66); /* text-primary @ ~66% */
+    --surface: rgba(36, 50, 74, 0.06); /* subtle surface */
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── UTILITIES ── */
+  .mono { font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  .rule-top { border-top: 1px solid var(--rule); }
+  .rule-bottom { border-bottom: 1px solid var(--rule); }
+
+  .label {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── NAV ── */
+  nav {
+    padding: 22px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: rgba(246, 248, 250, 0.9);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+
+  .nav-brand {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+  }
+
+  .nav-cta {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: var(--white);
+    background: var(--primary-dark);
+    padding: 10px 18px;
+    border-radius: 10px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 96px 40px 76px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 34px;
+  }
+
+  .hero-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(44px, 6vw, 72px);
+    font-weight: 300;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    margin-bottom: 26px;
+    color: var(--primary-dark);
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.75;
+    margin-bottom: 42px;
+    font-weight: 300;
+  }
+
+  .verdict-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 52px;
+    flex-wrap: wrap;
+  }
+
+  .verdict {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    padding: 8px 14px;
+    border: 1px solid;
+    border-radius: 999px;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.55);
+  }
+
+  .v-proceed { border-color: var(--soft-accent); color: var(--soft-accent); }
+  .v-pause { border-color: var(--accent); color: var(--accent); }
+  .v-stop { border-color: var(--primary-dark); color: var(--primary-dark); }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: var(--white);
+    background: var(--primary-dark);
+    padding: 16px 28px;
+    display: inline-block;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 26px rgba(15, 27, 45, 0.12);
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+  .btn-ghost {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: var(--primary-dark);
+    border: 1px solid var(--rule);
+    padding: 16px 28px;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    cursor: pointer;
+    background: rgba(255,255,255,0.35);
+    border-radius: 12px;
+  }
+  .btn-ghost:hover { border-color: rgba(46,90,172,0.45); background: rgba(46,90,172,0.06); color: var(--accent); }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 78px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 44px;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    color: rgba(36, 50, 74, 0.45);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--primary-dark);
+  }
+
+  /* ── WHY / PROBLEM ── */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 36px;
+  }
+
+  .problem-cell {
+    background: rgba(255,255,255,0.65);
+    padding: 30px;
+  }
+
+  .problem-cell .cell-label {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .problem-cell p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  .insight-quote {
+    border-left: 2px solid var(--accent);
+    padding: 18px 24px;
+    background: var(--surface);
+    border-radius: 14px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--primary-dark);
+  }
+
+  /* ── WHO ── */
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+
+  .who-card {
+    border: 1px solid var(--rule);
+    background: rgba(255,255,255,0.55);
+    padding: 26px;
+    border-radius: 16px;
+    position: relative;
+  }
+
+  .who-card::before {
+    content: attr(data-icon);
+    font-size: 22px;
+    display: block;
+    margin-bottom: 12px;
+    color: var(--accent);
+  }
+
+  .who-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--primary-dark);
+  }
+
+  .who-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .scenario-tag {
+    display: inline-block;
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 6px 12px;
+    margin: 4px 6px 4px 0;
+    letter-spacing: 0.05em;
+    background: rgba(255,255,255,0.4);
+  }
+
+  /* ── DELIVERABLES ── */
+  .deliverable-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .deliverable-item {
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.55);
+  }
+
+  .deliverable-head {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .deliverable-head:hover { background: rgba(46,90,172,0.05); }
+
+  .d-num {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    color: rgba(36, 50, 74, 0.55);
+    letter-spacing: 0.1em;
+  }
+
+  .d-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary-dark);
+  }
+
+  .d-badge {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    background: rgba(29,111,115,0.08);
+    color: rgba(29,111,115,0.95);
+    border: 1px solid rgba(29,111,115,0.18);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .deliverable-body {
+    padding: 0 24px 0 92px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .deliverable-item.open .deliverable-body {
+    max-height: 900px;
+    padding: 0 24px 24px 92px;
+  }
+
+  .deliverable-body ul {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+
+  .deliverable-body li {
+    font-size: 14px;
+    color: var(--muted);
+    padding: 6px 0;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.55;
+  }
+
+  .deliverable-body li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: rgba(36, 50, 74, 0.35);
+  }
+
+  .output-tag {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    background: rgba(46, 90, 172, 0.08);
+    border: 1px solid rgba(46, 90, 172, 0.16);
+    padding: 8px 12px;
+    display: inline-block;
+    border-radius: 999px;
+  }
+
+  /* ── PROCESS ── */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .step {
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 26px 22px;
+  }
+
+  .step-num {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    color: rgba(36, 50, 74, 0.55);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+
+  .step h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.35;
+    color: var(--primary-dark);
+  }
+
+  .step p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ── NOT THIS ── */
+  .not-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .not-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(36,50,74,0.05);
+    border: 1px solid rgba(36,50,74,0.10);
+    border-radius: 14px;
+  }
+
+  .not-icon {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    color: rgba(36, 50, 74, 0.55);
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .not-item span {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ── CTA FINAL ── */
+  .final-cta {
+    padding: 92px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+
+  .final-cta .label { margin-bottom: 18px; display: block; }
+
+  .final-cta h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(34px, 5vw, 56px);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: var(--primary-dark);
+  }
+
+  .final-cta p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 460px;
+    margin: 0 auto 36px;
+    line-height: 1.75;
+  }
+
+  .disclosure {
+    margin-top: 22px;
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(36, 50, 74, 0.55);
+    text-transform: uppercase;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  footer span {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(36, 50, 74, 0.55);
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-label, .hero-title, .hero-sub, .verdict-row, .hero-cta-group {
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-label { animation-delay: 0.08s; }
+  .hero-title { animation-delay: 0.18s; }
+  .hero-sub { animation-delay: 0.30s; }
+  .verdict-row { animation-delay: 0.40s; }
+  .hero-cta-group { animation-delay: 0.50s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    nav { padding: 18px 20px; }
+    .hero, section, .final-cta { padding-left: 20px; padding-right: 20px; }
+    .problem-grid, .not-grid, .who-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .deliverable-body { padding-left: 24px !important; }
+    footer { flex-direction: column; text-align: center; }
+  }
+
+/* ── CONTACT FORM ── */
+.contact-form {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.55);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+}
+
+.contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  border-color: rgba(46,90,172,0.45);
+  box-shadow: 0 0 0 3px rgba(46,90,172,0.10);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.form-note {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 680px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+
+  /* ── KR HERO TYPOGRAPHY OVERRIDES (Hero only) ── */
+  .hero.kr-hero .label,
+  .hero.kr-hero .hero-title,
+  .hero.kr-hero .hero-sub {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  .hero.kr-hero .hero-title {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.22;
+    font-size: clamp(40px, 5.2vw, 60px);
+  }
+
+  .hero.kr-hero .hero-sub {
+    font-weight: 500;
+    color: rgba(16, 24, 40, 0.70);
+    max-width: 640px;
+  }
+
+  .hero.kr-hero .hero-title em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+
+  .hero.kr-hero .btn-primary,
+  .hero.kr-hero .btn-ghost {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+
+  .hero.kr-hero .btn-primary,
+  .hero.kr-hero .btn-ghost {
+    font-size: 16px;
+    padding: 16px 28px;
+  }
+
+
+  /* ── KR WHY TYPOGRAPHY OVERRIDES (Why section only) ── */
+  #why .section-title,
+  #why .problem-cell p,
+  #why .problem-cell .cell-label,
+  #why .insight-quote {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  #why .section-title {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.22;
+    font-size: clamp(26px, 3.6vw, 38px);
+  }
+
+  #why .problem-cell .cell-label {
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    font-size: 10px;
+  }
+
+  #why .problem-cell p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  #why .insight-quote {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.55;
+  }
+
+
+  /* ── KR WHY SIZE ADJUSTMENT ── */
+  #why .problem-cell p {
+    font-size: 16px;
+    line-height: 1.85;
+  }
+
+  #why .section-title {
+    font-size: clamp(30px, 4vw, 44px);
+  }
+
+
+  /* ── KR WHY COLOR ALIGNMENT ── */
+  #why .problem-cell p {
+    color: var(--primary-dark);
+  }
+
+
+  /* ── KR WHY TONE REFINEMENT ── */
+  #why .problem-cell p {
+    color: rgba(16, 24, 40, 0.82);
+  }
+
+  #why .problem-cell .cell-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+
+  /* ── KR WHO TYPOGRAPHY OVERRIDES (Who section only) ── */
+  #who .section-title,
+  #who .who-card h4,
+  #who .who-card p,
+  #who .label,
+  #who .scenario-tag {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  #who .section-title {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  #who .label {
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
+  #who .who-card h4 {
+    font-weight: 700;
+  }
+
+  #who .who-card p {
+    font-size: 14px;
+    line-height: 1.85;
+    color: rgba(16, 24, 40, 0.78);
+  }
+
+
+  /* ── KR WHO SIZE ADJUSTMENT ── */
+  #who .who-card h4 {
+    font-size: 18px;
+  }
+
+  #who .who-card p {
+    font-size: 16px;
+    line-height: 1.9;
+  }
+
+
+  /* ── KR WHO MOBILE WRAP FIX ── */
+  #who .who-card p {
+    word-break: keep-all;
+    line-break: strict;
+  }
+
+  @media (max-width: 768px) {
+    #who .who-card p {
+      font-size: 17px;
+      line-height: 1.85;
+    }
+  }
+
+
+  /* ── ACCORDION (DETAILS/SUMMARY) ── */
+  details.deliverable-item { border: 1px solid var(--rule); overflow: hidden; border-radius: 16px; background: rgba(255,255,255,0.55); }
+  details.deliverable-item summary.deliverable-head { list-style: none; }
+  details.deliverable-item summary.deliverable-head::-webkit-details-marker { display: none; }
+  details.deliverable-item[open] .deliverable-body {
+    max-height: 900px;
+    padding: 0 24px 24px 92px;
+  }
+
+
+  /* ── KR HOW TYPOGRAPHY SCALE UP ── */
+  #process .step h4 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  #process .step p {
+    font-size: 16px;
+    line-height: 1.9;
+    font-weight: 500;
+  }
+
+  #process .step-num {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+
+  /* KR WHAT THIS IS NOT QUOTE SIZE FIX */
+  #not-this .insight-quote {
+    font-size: 20px;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    #not-this .insight-quote {
+      font-size: 18px;
+    }
+  }
+
+
+  /* ── KR CTA TYPOGRAPHY FIX ── */
+  #contact {
+    font-family: 'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  #contact h2 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  #contact p {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(16,24,40,0.85);
+    line-height: 1.9;
+  }
+
+  #contact .form-label {
+    font-weight: 600;
+  }
+
+  #contact input,
+  #contact textarea,
+  #contact select {
+    font-size: 15px;
+  }
+
+  #contact .form-note {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(16,24,40,0.9);
+  }
+
+  #contact .disclosure {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(16,24,40,0.7);
+  }
+
+
+  /* ── LANGUAGE SWITCH ── */
+  .lang-switch {
+    font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(36, 50, 74, 0.55);
+  }
+  .lang-switch a {
+    text-decoration: none;
+    color: rgba(36, 50, 74, 0.65);
+  }
+  .lang-switch a.active {
+    color: var(--primary-dark);
+    font-weight: 600;
+  }
+  .lang-switch .divider { opacity: 0.4; }
+
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="canonical" href="https://clarivex.co/kr/" />
+<link rel="alternate" hreflang="en" href="https://clarivex.co/" />
+<link rel="alternate" hreflang="ko" href="https://clarivex.co/kr/" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">CLARIVEX · 딜 구조 설계 · 현장 기반 판단 검증</span>
+  <div class="lang-switch"><a href="/" >EN</a><span class="divider">|</span><a href="/kr/" class="active">KR</a></div>
+  <a href="#contact" class="nav-cta">진단 요청하기 →</a>
+</nav>
+
+
+
+
+<!-- HERO -->
+<div class="hero kr-hero">
+  <div class="hero-label">
+    <span class="label">해외 B2B 기술 딜 아키텍트</span>
+  </div>
+
+  <h1 class="hero-title">
+    해외 딜은 <em>구조에서 멈춥니다.</em>
+  </h1>
+
+  <p class="hero-sub">
+    제품이 부족해서가 아닙니다. 
+    내부 검토를 통과하지 못하는 구조에서 멈춥니다.  
+
+    Clarivex는 해외 진출, 기술 제휴, 전략적 공급 계약처럼
+    한 번 진행하면 되돌리기 어려운 결정을 앞둔 기업을 위해
+    계약 전, 구조적 위치를 명확히 합니다.  
+
+    진행할지, 보류할지, 멈출지 — 
+    감이 아닌 구조로 판단할 수 있도록 돕습니다.
+  </p>
+
+  <div class="hero-cta-group">
+    <a href="#contact" class="btn-primary">해외 딜 구조 진단하기 →</a>
+    <a href="#deliverables" class="btn-ghost">제공 서비스 보기</a>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div style="border-top: 1px solid var(--rule);"></div>
+
+
+
+
+<!-- WHY DEALS STALL (KR) -->
+<section id="why" style="font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">해외 딜은 왜 멈추는가</h2>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-cell">
+      <div class="cell-label">본질적인 문제</div>
+      <p style="font-weight:500;">
+        해외 B2B 기술 딜이 멈추는 이유는 
+        제품이 부족해서가 아닙니다.
+      </p>
+
+      <p style="margin-top:12px; font-weight:500;">
+        비즈니스·기술·법무·경영진 등 
+        여러 이해관계자 앞에서 무너지는 
+        의사결정 구조 때문입니다.
+      </p>
+
+      <p style="margin-top:12px; font-weight:500;">
+        리스크가 설명되지 않고, 
+        증명이 부족하며, 
+        합의가 흔들리면 — 
+        딜은 다시 속도를 회복하지 못합니다.
+      </p>
+    </div>
+
+    <div class="problem-cell">
+      <div class="cell-label">무엇이 달라졌는가</div>
+      <p style="font-weight:500;">
+        이제 해외 딜은 설득으로 진행되지 않습니다.
+      </p>
+
+      <p style="margin-top:12px; font-weight:500;">
+        여러 부서와 책임자가 참여합니다. 
+        각자가 내부적으로 설명하고 책임질 수 있어야 
+        계약은 앞으로 나아갑니다.
+      </p>
+
+      <p style="margin-top:12px; font-weight:500;">
+        결정은 압박이 아니라 
+        합의 가능한 구조 위에서만 진행됩니다.
+      </p>
+    </div>
+  </div>
+
+  <div class="insight-quote" style="font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-style: normal; font-weight:600;">
+    “압박이 아니라 <span style="color: var(--accent); font-weight:700;">구조</span>가 딜을 움직입니다.” 
+    <span style="font-family: 'DM Mono', monospace; font-size: 12px; font-style: normal; letter-spacing: 0.08em; color: var(--muted); margin-top: 10px; display: block;">— CLARIVEX</span>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<!-- WHO (KR) -->
+<section id="who" class="rule-top" style="font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">이런 분들을 위해 설계되었습니다</h2>
+  </div>
+
+  <div class="who-grid" style="margin-bottom: 30px;">
+    <div class="who-card" data-icon="◎">
+      <h4>대표 및 경영진</h4>
+      <p style="font-weight:500;">
+        해외 진출, 장기 기술 제휴, 전략적 공급 계약과 같이 
+        회사에 중대한 영향을 미치는 결정을 앞두고 있는 경우
+        <span style="display:block; margin-top:10px;">
+        계약 이전에, 해외 딜 구조를 명확히 해야 할 때
+        </span>
+      </p>
+    </div>
+
+    <div class="who-card" data-icon="◈">
+      <h4>BD 및 전략 리더</h4>
+      <p style="font-weight:500;">
+        여러 부서의 이해관계를 조율해야 하는 상황에서 
+        딜 구조가 실제로 내부 합의를 통과할 수 있는지 확인해야 할 때
+      </p>
+    </div>
+
+    <div class="who-card" data-icon="◇">
+      <h4>투자 및 M&amp;A 팀</h4>
+      <p style="font-weight:500;">
+        해외 기술 제휴나 사업 확장을 검토하면서 
+        실행 가능성과 전제가 실제로 맞는지 확인해야 할 때
+      </p>
+    </div>
+
+    <div class="who-card" data-icon="△">
+      <h4>해외 딜 실무팀</h4>
+      <p style="font-weight:500;">
+        문서와 회의만으로는 실제 실행 역량과 책임 구조를 확신하기 어려운 경우
+        <span style="display:block; margin-top:10px;">
+        합의가 형식적인 동의에 그치지 않았는지 확인해야 할 때
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 8px;" class="label">TYPICAL SCENARIOS</div>
+  <div>
+    <span class="scenario-tag">"이 딜은 어디서 무너질 것인가?"</span>
+    <span class="scenario-tag">"가장 구조적 리스크가 큰 가정은 무엇인가?"</span>
+    <span class="scenario-tag">"내부 합의는 충분한가, 아니면 표면적인 동의에 불과한가?"</span>
+    <span class="scenario-tag">"이 결정은 되돌릴 수 있는가, 아니면 책임이 고정되는가?"</span>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- DELIVERABLES -->
+
+<!-- DELIVERABLES (KR) -->
+
+<!-- DELIVERABLES (KR) -->
+<section id="deliverables" class="rule-top" style="font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">제공 서비스</h2>
+  </div>
+
+  <div class="deliverable-list">
+
+    <details class="deliverable-item" open>
+      <summary class="deliverable-head">
+        <span class="d-num">01</span>
+        <span class="d-title">딜 구조 설계</span>
+      </summary>
+      <div class="deliverable-body">
+        <ul>
+          <li>핵심 조건 정리 문서</li>
+          <li>주요 리스크 및 전제 조건 정리</li>
+          <li>되돌리기 어려운 조건 및 책임 범위 정리</li>
+          <li>외부 이해관계자 설명 자료 구조</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="deliverable-item">
+      <summary class="deliverable-head">
+        <span class="d-num">02</span>
+        <span class="d-title">실행 구조 검증</span>
+      </summary>
+      <div class="deliverable-body">
+        <ul>
+          <li>계약 조건과 실제 운영 구조의 차이 확인</li>
+          <li>실행 역량 및 의사결정 구조 점검</li>
+          <li>숨은 리스크 및 병목 요인 식별</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="deliverable-item">
+      <summary class="deliverable-head">
+        <span class="d-num">03</span>
+        <span class="d-title">의사결정 기준 및 조건 구조 정리</span>
+      </summary>
+      <div class="deliverable-body">
+        <ul>
+          <li>진행 조건 및 보완 필요 사항 정리</li>
+          <li>협상 시 수정이 필요한 조항 목록</li>
+          <li>내부 보고용 의사결정 메모</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="deliverable-item">
+      <summary class="deliverable-head">
+        <span class="d-num">04</span>
+        <span class="d-title">현장 기반 협상 및 확장 지원</span>
+      </summary>
+      <div class="deliverable-body">
+        <ul>
+          <li>협상 프레임 설계</li>
+          <li>주요 조항 구조 재정렬</li>
+          <li>현장 동행 및 협상 리드</li>
+          <li>OEM·JV·라이선스 구조 설계</li>
+        </ul>
+        <p style="margin-top:12px; font-size:14px; color:rgba(16,24,40,0.7);">
+          ※ 단순 소개, 중개, 영업 대행은 수행하지 않습니다.
+        </p>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+
+
+<!-- PROCESS -->
+
+<!-- HOW IT WORKS (KR REFINED) -->
+<section id="process" class="rule-top" style="font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">진행 방식</h2>
+  </div>
+
+  <div class="process-steps">
+
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>현재 딜 상태 진단</h4>
+      <p>
+        지금까지 합의된 조건과 남아 있는 핵심 쟁점,
+        내부 승인 구조와 실제로 책임지게 될 범위를 점검합니다.
+      </p>
+      <p style="margin-top:8px;">
+        → 딜 현황 요약표 제공
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>조건·리스크 구조 도출</h4>
+      <p>
+        핵심 조건을 재정렬하고,
+        상대방의 책임 범위를 명확히 하며,
+        빠져나오기 어려운 조건과 협상 수정이 필요한 조항을 도출합니다.
+      </p>
+      <p style="margin-top:8px;">
+        → 조건·리스크 구조 정리표 제공
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>실행 가능성 점검</h4>
+      <p>
+        계약 조건이 실제 운영 구조와 일치하는지,
+        의사결정 권한이 실제로 누구에게 있는지,
+        숨은 리스크와 병목 요인을 확인합니다.
+      </p>
+      <p style="margin-top:8px;">
+        → 실행 가능성 평가 메모 제공
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="step-num">04</div>
+      <h4>진행 조건 제시</h4>
+      <p>
+        지금 진행해도 되는지,
+        어떤 조건이 보완되어야 하는지,
+        협상에서 반드시 조정해야 할 부분을 명확히 합니다.
+      </p>
+      <p style="margin-top:8px;">
+        → 진행 조건 및 협상 포인트 정리
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<!-- NOT THIS -->
+
+<!-- WHAT THIS IS NOT (KR) -->
+<section id="not-this" class="rule-top" style="font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">적용 범위</h2>
+  </div>
+
+  <p style="font-size:16px; line-height:1.85; font-weight:500; color:rgba(16,24,40,0.85); max-width:720px;">
+    Clarivex는 모든 유형의 해외 비즈니스를 다루지 않습니다.
+    다음과 같은 목적에는 적합하지 않을 수 있습니다.
+  </p>
+
+  <div class="not-grid" style="margin-top:24px;">
+    <div class="not-item">
+      <span class="not-icon">×</span>
+      <span>단순 파트너 소개</span>
+    </div>
+    <div class="not-item">
+      <span class="not-icon">×</span>
+      <span>매출 확대를 위한 영업 실행 지원</span>
+    </div>
+    <div class="not-item">
+      <span class="not-icon">×</span>
+      <span>계약 체결 이후의 문제 수습</span>
+    </div>
+    <div class="not-item">
+      <span class="not-icon">×</span>
+      <span>구조 검토 없이 즉시 실행을 원하는 경우</span>
+    </div>
+  </div>
+
+  <div class="insight-quote" style="margin-top:40px; font-style:normal; font-weight:600;">
+    Clarivex는 해외 딜의 구조를 먼저 설계하는 파트너입니다.
+  </div>
+</section>
+
+
+
+<!-- FINAL CTA -->
+
+
+
+
+
+<div class="final-cta" id="contact" style="font-family:'Noto Sans KR', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+  <span class="label">One decision. One advisor. Full accountability.</span>
+  <h2>해외 딜 구조 진단하기</h2>
+  <p>
+    현재 진행 중인 해외 딜의 구조와 주요 조건을 공유해 주십시오.
+    Clarivex의 범위에 해당하는 경우, 다음 단계에 대해 안내드립니다.
+  </p>
+
+  <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <div class="form-grid">
+      <div class="form-field">
+        <label class="form-label" for="name">이름</label>
+        <input id="name" name="name" type="text" placeholder="성함을 입력해 주세요" required>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="email">이메일</label>
+        <input id="email" name="email" type="email" placeholder="회사 이메일" required>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="company">회사명</label>
+        <input id="company" name="company" type="text" placeholder="회사명을 입력해 주세요" required>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="industry">산업 / 분야 (선택)</label>
+        <input id="industry" name="industry" type="text" placeholder="예: 제조, 반도체, 에너지">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="role">직책</label>
+        <input id="role" name="role" type="text" placeholder="예: 대표, 전략 담당">
+      </div>
+    </div>
+
+    <div class="form-field" style="margin-top:16px;">
+      <label class="form-label" for="context">딜 개요</label>
+      <textarea id="context" name="decision_context" placeholder="어떤 계약을 앞두고 있으며, 주요 쟁점은 무엇입니까?" required></textarea>
+    </div>
+
+    <div class="form-grid" style="margin-top:16px;">
+      <div class="form-field">
+        <label class="form-label" for="timeline">예상 의사결정 시점</label>
+        <select id="timeline" name="decision_timeline" required>
+          <option value="" selected disabled>선택</option>
+          <option>30일 이내</option>
+          <option>1~3개월</option>
+          <option>3~6개월</option>
+          <option>검토 단계</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="commitment">예상 계약 규모 (선택)</label>
+        <input id="commitment" name="commitment_size" type="text" placeholder="예: 5억, 3년 계약 등">
+      </div>
+    </div>
+
+    <input type="hidden" name="_subject" value="Clarivex — 구조 진단 요청">
+    <div class="form-actions" style="flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 18px;">
+      <button class="btn-primary" type="submit">진단 요청하기</button>
+      <span class="form-note">중요한 딜일수록, 구조는 명확해야 합니다.</span>
+    </div>
+  </form>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <span>CLARIVEX</span>
+  <span>딜 판단 · 현장 검증</span>
+</footer>
+
+<script>
+/* KR ACCORDION BINDINGS */
+document.addEventListener('DOMContentLoaded', function () {
+  document.query선택orAll('.deliverable-head').forEach(function(head) {
+    head.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var item = head.closest('.deliverable-item');
+      if (!item) return;
+      var isOpen = item.classList.contains('open');
+      document.query선택orAll('.deliverable-item').forEach(function(d) { d.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+});
+</script>
+
+
+</body>
+</html>
